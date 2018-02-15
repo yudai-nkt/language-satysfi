@@ -1,0 +1,78 @@
+scopeName: "source.satysfi"
+name: "SATySFi"
+fileTypes: [
+  "saty"
+]
+patterns: [
+  {
+    # The program layer seems to have a dedicated file extension "satyh"
+    # althoguh I'm not familiar with the language spec.
+    # This program repository might be migrated into another CSON in the future.
+    include: "#program"
+  }
+  {
+    include: "#markup"
+  }
+]
+repository:
+  program:
+    patterns: []
+  markup:
+    patterns: [
+      {
+        include: "#comment"
+      }
+      {
+        include: "#packageLoading"
+      }
+      {
+        # This will be divided into several parts with more comprehensive names
+        # once I get familiar with the grammar.
+        include: "#misc"
+      }
+    ]
+  comment:
+    match: "%.*"
+    name: "comment.line.percentage.satysfi"
+  packageLoading:
+    match: "@(import|require):"
+    name: "keyword.control.$1.satysfi"
+  misc:
+    patterns: [
+      {
+        begin: "(document)\\s+\\(\\|"
+        beginCaptures:
+          1:
+            name: "keyword.other.document.satysfi"
+        end: "\\|\\)"
+        patterns: [
+          {
+            match: "(title|author)\\s*(=)\\s*(.+);"
+            captures:
+              1:
+                name: "keyword.other.document-metadata.$1.satysfi"
+              2:
+                name: "punctuation.separator.key-value.satysfi"
+          }
+          {
+            match: "(show-(?:title|toc))\\s*(=)\\s*(true|false);"
+            captures:
+              1:
+                name: "keyword.other.document-metadata.$1.satysfi"
+              2:
+                name: "punctuation.separator.key-value.satysfi"
+              3:
+                name: "constant.language.boolean.$3.satysfi"
+          }
+        ]
+      }
+      {
+        begin: "(\\+(section))\\s*(?:\\?:\\(`(.*?)`\\))?\\s*{.*?}<"
+        beginCaptures:
+          1:
+            name: "markup.heading.$2.satysfi"
+          3:
+            name: "constant.other.label.satysfi"
+        end: ">"
+      }
+    ]
