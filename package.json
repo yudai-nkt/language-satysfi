@@ -1,0 +1,15 @@
+{
+  "name": "language-satysfi",
+  "version": "0.0.0",
+  "description": "SATySFi grammar package for Atom",
+  "keywords": [
+    "language",
+    "grammar",
+    "satysfi"
+  ],
+  "repository": "https://github.com/yudai-nkt/language-satysfi",
+  "license": "MIT",
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  }
+}
