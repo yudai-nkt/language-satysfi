@@ -1,7 +1,8 @@
 scopeName: "source.satysfi"
 name: "SATySFi"
 fileTypes: [
-  "saty"
+  "saty",
+  "satyh"
 ]
 patterns: [
   {
@@ -16,7 +17,14 @@ patterns: [
 ]
 repository:
   program:
-    patterns: []
+    patterns: [
+      {
+        include: "#primitiveType"
+      }
+    ]
+  primitiveType:
+    match: "\\b(unit|bool|int|float|length|string|inline-(?:text|boxes))\\b"
+    name: "storage.type.primitive.satysfi"
   markup:
     patterns: [
       {
