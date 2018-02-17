@@ -67,6 +67,16 @@ repository:
         ]
       }
       {
+        begin: "{"
+        beginCaptures:
+          0:
+            name: "punctuation.definition.argument.inline-direction.begin.satysfi"
+        end: "}"
+        endCaptures:
+          0:
+            name: "punctuation.definition.argument.inline-direction.end.satysfi"
+      }
+      {
         begin: "(\\+(section))\\s*(?:\\?:\\(`(.*?)`\\))?\\s*{.*?}(<)"
         beginCaptures:
           1:
@@ -80,6 +90,29 @@ repository:
           0:
             name: "punctuation.definition.argument.box-direction.end.satysfi"
         patterns: [
+          {
+            include: "$self"
+          }
+        ]
+      }
+      {
+        begin: "(\\+listing)({)"
+        beginCaptures:
+          1:
+            name: "support.other.listing.itemize.satysfi"
+          2:
+            name: "punctuation.definition.argument.inline-direction.begin.satysfi"
+        end: "}"
+        endCaptures:
+          0:
+            name: "punctuation.definition.argument.inline-direction.end.satysfi"
+        patterns: [
+          {
+            match: "^\\s*(\\*+)\\s+"
+            captures:
+              1:
+                name: "variable.unordered.list.satysfi"
+          }
           {
             include: "$self"
           }
