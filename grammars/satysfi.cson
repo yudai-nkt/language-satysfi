@@ -96,6 +96,23 @@ repository:
         ]
       }
       {
+        begin: "(\\+pn?)({)"
+        beginCaptures:
+          1:
+            name: "support.other.paragraph.satysfi"
+          2:
+            name: "punctuation.definition.argument.inline-direction.begin.satysfi"
+        end: "}"
+        endCaptures:
+          0:
+            name: "punctuation.definition.argument.inline-direction.end.satysfi"
+        patterns: [
+          {
+            include: "$self"
+          }
+        ]
+      }
+      {
         begin: "(\\+listing)({)"
         beginCaptures:
           1:
