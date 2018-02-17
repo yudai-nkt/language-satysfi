@@ -67,12 +67,22 @@ repository:
         ]
       }
       {
-        begin: "(\\+(section))\\s*(?:\\?:\\(`(.*?)`\\))?\\s*{.*?}<"
+        begin: "(\\+(section))\\s*(?:\\?:\\(`(.*?)`\\))?\\s*{.*?}(<)"
         beginCaptures:
           1:
             name: "markup.heading.$2.satysfi"
           3:
             name: "constant.other.label.satysfi"
+          4:
+            name: "punctuation.definition.argument.box-direction.begin.satysfi"
         end: ">"
+        endCaptures:
+          0:
+            name: "punctuation.definition.argument.box-direction.end.satysfi"
+        patterns: [
+          {
+            include: "$self"
+          }
+        ]
       }
     ]
