@@ -6,13 +6,13 @@ fileTypes: [
 ]
 patterns: [
   {
+    include: "#markup"
+  }
+  {
     # The program layer seems to have a dedicated file extension "satyh"
     # althoguh I'm not familiar with the language spec.
     # This program repository might be migrated into another CSON in the future.
     include: "#program"
-  }
-  {
-    include: "#markup"
   }
 ]
 repository:
@@ -21,10 +21,40 @@ repository:
       {
         include: "#primitiveType"
       }
+      {
+        include: "#operator"
+      }
     ]
   primitiveType:
     match: "\\b(unit|bool|int|float|length|string|inline-(?:text|boxes))\\b"
     name: "storage.type.primitive.satysfi"
+  operator:
+    patterns: [
+      {
+        match: "(\\+|-)\\."
+        name: "keyword.operator.arithmetic.float.satysfi"
+      }
+      {
+        match: "(\\+|-|\\*|/)'"
+        name: "keyword.operator.arithmetic.length.satysfi"
+      }
+      {
+        match: "(<|>)'"
+        name: "keyword.operator.comparison.length.satysfi"
+      }
+      {
+        match: "(\\+|-|\\*|/|mod)"
+        name: "keyword.operator.arithmetic.int.satysfi"
+      }
+      {
+        match: "((?:<|=|>)=|<>|<|>)"
+        name: "keyword.operator.comparison.int.satysfi"
+      }
+      {
+        match: "(&&|\\|\\||not)"
+        name: "keyword.operator.logical.satysfi"
+      }
+    ]
   markup:
     patterns: [
       {
