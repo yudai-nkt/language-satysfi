@@ -19,10 +19,10 @@ repository:
   program:
     patterns: [
       {
-        include: "#primitiveType"
+        include: "#operator"
       }
       {
-        include: "#operator"
+        include: "#primitiveType"
       }
     ]
   primitiveType:
@@ -53,6 +53,18 @@ repository:
       {
         match: "(&&|\\|\\||not)"
         name: "keyword.operator.logical.satysfi"
+      }
+      {
+        match: "\\^"
+        name: "keyword.operator.concatenation.string.satysfi"
+      }
+      {
+        match: "(arabic|string-unexplode)"
+        name: "support.function.builtin.satysfi"
+      }
+      {
+        match: "(string-(?:same|sub|length))"
+        name: "invalid.deprecated.string.satysfi"
       }
     ]
   markup:
