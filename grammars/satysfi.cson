@@ -22,6 +22,24 @@ repository:
         include: "#operator"
       }
       {
+        include: "#primitiveInline"
+      }
+      {
+        include: "#primitiveBlock"
+      }
+      {
+        include: "#primitiveContext"
+      }
+      {
+        include: "#primitiveMath"
+      }
+      {
+        include: "#primitiveImage"
+      }
+      {
+        include: "#primitiveGraphic"
+      }
+      {
         include: "#primitiveType"
       }
     ]
@@ -41,6 +59,14 @@ repository:
       {
         match: "(<|>)'"
         name: "keyword.operator.comparison.length.satysfi"
+      }
+      {
+        match: "\\+{3}"
+        name: "keyword.operator.bond.block.satysfi"
+      }
+      {
+        match: "\\+{2}"
+        name: "keyword.operator.bond.inline.satysfi"
       }
       {
         match: "(\\+|-|\\*|/|mod)"
@@ -67,6 +93,24 @@ repository:
         name: "invalid.deprecated.string.satysfi"
       }
     ]
+  primitiveInline:
+    match: "(read-inline|inline-(?:skip|glue|fill|nil|graphics|frame-(?:inner|outer|breakable))|embed-(?:string|math|block-(?:top|bottom))|discretionary|script-guard|get-natural-width|line-stack-(?:top|bottom))"
+    name: "support.function.builtin.inline.satysfi"
+  primitiveBlock:
+    match: "(read-block|line-break|form-document|block-(?:nil|frame-breakable))"
+    name: "support.function.builtin.block.satysfi"
+  primitiveContext:
+    match: "((?:set|get)-(?:font-size|language|dominant-(?:narrow|wide)-script)|set-(?:space-ratio|(?:math-)?font|text-color|leading|manual-rising)|get-text-width)"
+    name: "support.function.builtin.context.satysfi"
+  primitiveMath:
+    match: "(math-(?:(?:big-)?char(?:-with-kern)?|sup|sub|upper|lower|frac|radical|paren|variant-char|color|char-class)|text-in-math)"
+    name: "support.function.builtin.math.satysfi"
+  primitiveImage:
+    match: "(load-(?:pdf-)?image|use-image-by-width)"
+    name: "support.function.builtin.image.satysfi"
+  primitiveGraphic:
+    match: "(start-path|(?:line|bezier)-to|close-with-(?:line|bezier)|(?:terminate|unite)-path|fill|stroke|draw-text)"
+    name: "support.function.builtin.graphic.satysfi"
   markup:
     patterns: [
       {
