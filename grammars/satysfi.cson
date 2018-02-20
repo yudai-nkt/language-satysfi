@@ -178,11 +178,11 @@ repository:
           3:
             name: "constant.other.label.satysfi"
           4:
-            name: "punctuation.definition.argument.box-direction.begin.satysfi"
+            name: "punctuation.definition.argument.block-direction.begin.satysfi"
         end: ">"
         endCaptures:
           0:
-            name: "punctuation.definition.argument.box-direction.end.satysfi"
+            name: "punctuation.definition.argument.block-direction.end.satysfi"
         patterns: [
           {
             include: "$self"
