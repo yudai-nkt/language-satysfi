@@ -4,12 +4,13 @@ An Atom package that provides [SATySFi][] grammar.
 
 ## Installation
 
-This package is in its extreme infancy and has not been published yet.
-If you do want to give it a try, install as a Git repository.
+Run the following command.
 
 ```console
-$ apm install yudai-nkt/language-satysfi
+$ apm install language-satysfi
 ```
+
+If you prefer installation via GUI, you can open Atom's setting pane, go to __Install__ > __Packages__ tab and search for `language-satysfi`.
 
 ## Contribution
 Contributions are highly welcome. Feel free to report an [issue][] or create a [pull request][].
