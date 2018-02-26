@@ -38,7 +38,7 @@ repository:
     endCaptures:
       1:
         name: "punctuation.definition.string.end.satysfi"
-    contentName: "string.quoted.grave-sccent.satysfi"
+    contentName: "string.quoted.grave-accent.satysfi"
   program:
     patterns: [
       {
