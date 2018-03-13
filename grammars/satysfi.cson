@@ -179,7 +179,7 @@ repository:
         name: "keyword.control.let-in.satysfi"
       }
       {
-        match: "(@(import|require))(:)(.*)$"
+        match: "(@(import|require))(:)\\s*(.*)$"
         captures:
           1:
             name: "keyword.control.header.$2.satysfi"
