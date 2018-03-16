@@ -261,7 +261,6 @@ repository:
         match: "([A-Z][-a-zA-Z0-9]*\\.)+(?=[a-z][-a-zA-Z0-9]*)"
         name: "support.class.constructor.satysfi"
       }
-
       {
         match: "\\?:"
         name: "punctuation.definition.optional-argument.satysfi"
