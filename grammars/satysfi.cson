@@ -106,6 +106,24 @@ repository:
       {
         include: "#transitionFromBlockState"
       }
+      {
+        include: "#blockCommand"
+      }
+      {
+        begin: "<"
+        beginCaptures:
+          0:
+            name: "punctuation.bracket.triangle.begin.satysfi"
+        end: ">"
+        endCaptures:
+          0:
+            name: "punctuation.bracket.triangle.end.satysfi"
+        patterns: [
+          {
+            include: "#blockState"
+          }
+        ]
+      }
     ]
   inlineState:
     patterns: [
@@ -119,25 +137,245 @@ repository:
         include: "#transitionFromInlineState"
       }
       {
+        include: "#inlineCommand"
+      }
+      {
         match: "\\\\[ -@\\[-`{-~]"
         name: "constant.character.escape.satysfi"
       }
     ]
   mathState:
     patterns: [
-      include: "#comment"
-      include: "#transitionFromMathState"
+      {
+        include: "#comment"
+      }
+      {
+        include: "#transitionFromMathState"
+      }
+      {
+        match: "\\\\[a-zA-Z][-a-zA-Z0-9]*"
+        name: "support.function.command.math.satysfi"
+      }
     ]
   transitionFromProgramState:
-    patterns: []
-  transitionFromActiveState:
-    patterns: []
+    patterns: [
+      {
+        begin: "\\{"
+        beginCaptures:
+          0:
+            name: "punctuation.transition.program-to-inline.begin.satysfi"
+        end: "\\}"
+        endCaptures:
+          0:
+            name: "punctuation.transition.program-to-inline.end.satysfi"
+        contentName: "meta.state.inline.satysfi"
+        patterns: [
+          {
+            include: "#inlineState"
+          }
+        ]
+      }
+      {
+        begin: "'<"
+        beginCaptures:
+          0:
+            name: "punctuation.transition.program-to-block.begin.satysfi"
+        end: ">"
+        endCaptures:
+          0:
+            name: "punctuation.transition.program-to-block.end.satysfi"
+        contentName: "meta.state.block.satysfi"
+        patterns: [
+          {
+            include: "#blockState"
+          }
+        ]
+      }
+      {
+        begin: "\\$\\{"
+        beginCaptures:
+          0:
+            name: "punctuation.transition.program-to-math.begin.satysfi"
+        end: "\\}"
+        endCaptures:
+          0:
+            name: "punctuation.transition.program-to-math.end.satysfi"
+        patterns: [
+          {
+            include: "#mathState"
+          }
+        ]
+      }
+    ]
   transitionFromBlockState:
-    patterns: []
+    patterns: [
+      {
+        begin: "\\{"
+        beginCaptures:
+          0:
+            name: "punctuation.transition.block-to-inline.begin.satysfi"
+        end: "\\}"
+        endCaptures:
+          0:
+            name: "punctuation.transition.block-to-inline.end.satysfi"
+        contentName: "meta.state.inline.satysfi"
+        patterns: [
+          {
+            include: "#inlineState"
+          }
+        ]
+      }
+    ]
   transitionFromInlineState:
-    patterns: []
+    patterns: [
+      {
+        begin: "<"
+        beginCaptures:
+          0:
+            name: "punctuation.transition.inline-to-block.begin.satysfi"
+        end: ">"
+        endCaptures:
+          0:
+            name: "punctuation.transition.inline-to-block.end.satysfi"
+        patterns: [
+          {
+            include: "#blockState"
+          }
+        ]
+      }
+      {
+        begin: "\\$\\{"
+        beginCaptures:
+          0:
+            name: "punctuation.transition.inline-to-math.begin.satysfi"
+        end: "\\}"
+        endCaptures:
+          0:
+            name: "punctuation.transition.inline-to-math.end.satysfi"
+        patterns: [
+          {
+            include: "#mathState"
+          }
+        ]
+      }
+    ]
   transitionFromMathState:
-    patterns: []
+    patterns: [
+      {
+        begin: "!\\{"
+        beginCaptures:
+          0:
+            name: "punctuation.transition.math-to-inline.begin.satysfi"
+        end: "\\}"
+        endCaptures:
+          0:
+            name: "punctuation.transition.math-to-inline.end.satysfi"
+        patterns: [
+          {
+            include: "#inlineState"
+          }
+        ]
+      }
+      {
+        begin: "!<"
+        beginCaptures:
+          0:
+            name: "punctuation.transition.math-to-block.begin.satysfi"
+        end: ">"
+        endCaptures:
+          0:
+            name: "punctuation.transition.math-to-block.end.satysfi"
+        patterns: [
+          {
+            include: "#blockState"
+          }
+        ]
+      }
+      {
+        begin: "!\\("
+        beginCaptures:
+          0:
+            name: "punctuation.transition.math-to-program.begin.satysfi"
+        end: "\\)"
+        endCaptures:
+          0:
+            name: "punctuation.transition.math-to-program.end.satysfi"
+        patterns: [
+          {
+            include: "#programState"
+          }
+        ]
+      }
+    ]
+  blockCommand:
+    patterns: [
+      {
+        begin: "(\\+[a-zA-Z][-a-zA-Z0-9]*)([^;<]*?)(\\{)"
+        beginCaptures:
+          1:
+            name: "support.function.command.block.satysfi"
+          2:
+            name: "meta.state.active.satysfi"
+            patterns: [
+              {
+                include: "#activeState"
+              }
+            ]
+          3:
+            name: "punctuation.definition.inline.begin.satysfi"
+        end: "\\}"
+        endCaptures:
+          0:
+            name: "punctuation.definition.inline.end.satysfi"
+        contentName: "meta.state.inline.satysfi"
+        patterns: [
+          {
+            include: "#inlineState"
+          }
+        ]
+      }
+      {
+        begin: "(\\+[a-zA-Z][-a-zA-Z0-9]*)([^;{]*?)(<)"
+        beginCaptures:
+          1:
+            name: "support.function.command.block.satysfi"
+          2:
+            name: "meta.state.active.satysfi"
+            patterns: [
+              {
+                include: "#activeState"
+              }
+            ]
+          3:
+            name: "punctuation.definition.block.begin.satysfi"
+        end: ">"
+        endCaptures:
+          0:
+            name: "punctuation.definition.block.end.satysfi"
+        contentName: "meta.state.block.satysfi"
+        patterns: [
+          {
+            include: "#blockState"
+          }
+        ]
+      }
+      {
+        begin: "\\+[a-zA-Z][-a-zA-Z0-9]*"
+        beginCaptures:
+          0:
+            name: "support.function.command.block.satysfi"
+        end: ";"
+        endCaptures:
+          0:
+            name: "punctuation.definition.terminator.satysfi"
+        contentName: "meta.state.active.satysfi"
+        patterns: [
+          {
+            include: "#activeState"
+          }
+        ]
+      }
+    ]
   comment:
     match: "(%).*"
     captures:
@@ -170,6 +408,75 @@ repository:
       {
         match: "(?:[0-9]+\\.[0-9]*|\\.[0-9]+|[1-9]+[0-9]*|0)(?:pt|mm|cm|inch)"
         name: "constant.numeric.length.satysfi"
+      }
+    ]
+  inlineCommand:
+    patterns: [
+      {
+        begin: "(\\\\[a-zA-Z][-a-zA-Z0-9]*)([^;<]*?)(\\{)"
+        beginCaptures:
+          1:
+            name: "support.function.command.inline.satysfi"
+          2:
+            name: "meta.state.active.satysfi"
+            patterns: [
+              {
+                include: "#activeState"
+              }
+            ]
+          3:
+            name: "punctuation.definition.inline.begin.satysfi"
+        end: "\\}"
+        endCaptures:
+          0:
+            name: "punctuation.definition.inline.end.satysfi"
+        contentName: "meta.state.inline.satysfi"
+        patterns: [
+          {
+            include: "#inlineState"
+          }
+        ]
+      }
+      {
+        begin: "(\\\\[a-zA-Z][-a-zA-Z0-9]*)([^;{]*?)(<)"
+        beginCaptures:
+          1:
+            name: "support.function.command.inline.satysfi"
+          2:
+            name: "meta.state.active.satysfi"
+            patterns: [
+              {
+                include: "#activeState"
+              }
+            ]
+          3:
+            name: "punctuation.definition.block.begin.satysfi"
+        end: ">"
+        endCaptures:
+          0:
+            name: "punctuation.definition.block.end.satysfi"
+        contentName: "meta.state.block.satysfi"
+        patterns: [
+          {
+            include: "#blockState"
+          }
+        ]
+      }
+      {
+        begin: "\\\\[a-zA-Z][-a-zA-Z0-9]*"
+        beginCaptures:
+          0:
+            name: "support.function.command.inline.satysfi"
+        end: ";"
+        endCaptures:
+          0:
+            name: "punctuation.definition.terminator.satysfi"
+        contentName: "meta.state.active.satysfi"
+        patterns: [
+          {
+            include: "#activeState"
+          }
+        ]
       }
     ]
   keyword:
