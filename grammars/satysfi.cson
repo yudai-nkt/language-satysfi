@@ -107,6 +107,9 @@ repository:
         include: "#transitionFromBlockState"
       }
       {
+        include: "#itemizePackage"
+      }
+      {
         include: "#blockCommand"
       }
       {
@@ -673,5 +676,30 @@ repository:
       {
         match: "(?<![\\w-])(start-path|(?:line|bezier)-to|close-with-(?:line|bezier)|(?:terminate|unite)-path|fill|stroke|draw-text)(?![\\w-])"
         name: "support.function.builtin.graphic.satysfi"
+      }
+    ]
+  itemizePackage:
+    patterns: [
+      {
+        begin: "(\\+listing)(?:\\s*)(\\{)"
+        beginCaptures:
+          1:
+            name: "support.function.listing.satysfi"
+          2:
+            name: "punctuation.definition.argument.inline.begin.satysfi"
+        end: "\\}"
+        endCaptures:
+          0:
+            name: "punctuation.definition.argument.inline.end.satysfi"
+        contentName: "meta.state.inline.satysfi"
+        patterns: [
+          {
+            match: "^(?:\\s*)(\\*+)"
+            name: "variable.unordered.list.satysfi"
+          }
+          {
+            include: "#inlineState"
+          }
+        ]
       }
     ]
