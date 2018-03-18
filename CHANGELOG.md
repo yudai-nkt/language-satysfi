@@ -6,7 +6,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.2.0] - 2018-03-18
+### Added
+- State-sensitivity in grammar. ([#1])
+- Grammar for many tokens in program state. ([#1])
+
+### Removed
+- Grammar for several commands that have no syntactic sugar in their arguments.
+
 ## 0.1.0 - 2018-02-20
 - Initial release.
 
-[Unreleased]: https://github.com/yudai-nkt/language-satysfi/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/yudai-nkt/language-satysfi/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/yudai-nkt/language-satysfi/compare/v0.1.0...v0.2.0
+
+[#1]: https://github.com/yudai-nkt/language-satysfi/pull/1
