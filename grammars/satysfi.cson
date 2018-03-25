@@ -694,8 +694,10 @@ repository:
         contentName: "meta.state.inline.satysfi"
         patterns: [
           {
-            match: "^(?:\\s*)(\\*+)"
-            name: "variable.unordered.list.satysfi"
+            match: "^\\s*(\\*+)"
+            captures:
+              1:
+                name: "variable.unordered.list.satysfi"
           }
           {
             include: "#inlineState"
