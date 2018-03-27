@@ -122,3 +122,108 @@ describe "SATySFi grammar", ->
     # Line 5
     expect(tokens[5][0].value).toBe ">"
     expect(tokens[5][0].scopes).toEqual ["source.satysfi", "punctuation.transition.program-to-block.end.satysfi"]
+
+  it "tokenizes a module definition", ->
+    tokens = grammar.tokenizeLines("""
+      module Foo : sig
+        val bar : int
+        direct \\baz : [string; inline-text] inline-cmd
+      end = struct
+    """)
+
+    # Line 0
+    expect(tokens[0][0].value).toBe "module"
+    expect(tokens[0][0].scopes).toEqual ["source.satysfi", "keyword.other.module.satysfi"]
+
+    expect(tokens[0][1].value).toBe " Foo "
+    expect(tokens[0][1].scopes).toEqual ["source.satysfi"]
+
+    expect(tokens[0][2].value).toBe ":"
+    expect(tokens[0][2].scopes).toEqual ["source.satysfi", "punctuation.definition.type-specification.satysfi"]
+
+    expect(tokens[0][3].value).toBe " "
+    expect(tokens[0][3].scopes).toEqual ["source.satysfi"]
+
+    expect(tokens[0][4].value).toBe "sig"
+    expect(tokens[0][4].scopes).toEqual ["source.satysfi", "keyword.other.module.satysfi"]
+
+    # Line 1
+    expect(tokens[1][0].value).toBe "  "
+    expect(tokens[1][0].scopes).toEqual ["source.satysfi"]
+
+    expect(tokens[1][1].value).toBe "val"
+    expect(tokens[1][1].scopes).toEqual ["source.satysfi", "keyword.other.module.satysfi"]
+
+    expect(tokens[1][2].value).toBe " bar "
+    expect(tokens[1][2].scopes).toEqual ["source.satysfi"]
+
+    expect(tokens[1][3].value).toBe ":"
+    expect(tokens[1][3].scopes).toEqual ["source.satysfi", "punctuation.definition.type-specification.satysfi"]
+
+    expect(tokens[1][4].value).toBe " "
+    expect(tokens[1][4].scopes).toEqual ["source.satysfi"]
+
+    expect(tokens[1][5].value).toBe "int"
+    expect(tokens[1][5].scopes).toEqual ["source.satysfi", "storage.type.primitive.satysfi"]
+
+    # Line 2
+    expect(tokens[2][0].value).toBe "  "
+    expect(tokens[2][0].scopes).toEqual ["source.satysfi"]
+
+    expect(tokens[2][1].value).toBe "direct"
+    expect(tokens[2][1].scopes).toEqual ["source.satysfi", "keyword.other.module.satysfi"]
+
+    expect(tokens[2][2].value).toBe " "
+    expect(tokens[2][2].scopes).toEqual ["source.satysfi"]
+
+    expect(tokens[2][3].value).toBe "\\baz"
+    expect(tokens[2][3].scopes).toEqual ["source.satysfi", "support.function.command.inline.satysfi"]
+
+    expect(tokens[2][4].value).toBe " "
+    expect(tokens[2][4].scopes).toEqual ["source.satysfi"]
+
+    expect(tokens[2][5].value).toBe ":"
+    expect(tokens[2][5].scopes).toEqual ["source.satysfi", "punctuation.definition.type-specification.satysfi"]
+
+    expect(tokens[2][6].value).toBe " "
+    expect(tokens[2][6].scopes).toEqual ["source.satysfi"]
+
+    expect(tokens[2][7].value).toBe "["
+    expect(tokens[2][7].scopes).toEqual ["source.satysfi", "meta.structure.list.satysfi", "punctuation.definition.list.begin.satysfi"]
+
+    expect(tokens[2][8].value).toBe "string"
+    expect(tokens[2][8].scopes).toEqual ["source.satysfi", "meta.structure.list.satysfi", "storage.type.primitive.satysfi"]
+
+    expect(tokens[2][9].value).toBe ";"
+    expect(tokens[2][9].scopes).toEqual ["source.satysfi", "meta.structure.list.satysfi", "punctuation.definition.list.delimiter.satysfi"]
+
+    expect(tokens[2][10].value).toBe " "
+    expect(tokens[2][10].scopes).toEqual ["source.satysfi", "meta.structure.list.satysfi"]
+
+    expect(tokens[2][11].value).toBe "inline-text"
+    expect(tokens[2][11].scopes).toEqual ["source.satysfi", "meta.structure.list.satysfi", "storage.type.primitive.satysfi"]
+
+    expect(tokens[2][12].value).toBe "]"
+    expect(tokens[2][12].scopes).toEqual ["source.satysfi", "meta.structure.list.satysfi", "punctuation.definition.list.end.satysfi"]
+
+    expect(tokens[2][13].value).toBe " "
+    expect(tokens[2][13].scopes).toEqual ["source.satysfi"]
+
+    expect(tokens[2][14].value).toBe "inline-cmd"
+    expect(tokens[2][14].scopes).toEqual ["source.satysfi", "keyword.other.type.builtin-command.satysfi"]
+
+    # Line 3
+    expect(tokens[3][0].value).toBe "end"
+    expect(tokens[3][0].scopes).toEqual ["source.satysfi", "keyword.other.module.satysfi"]
+
+    expect(tokens[3][1].value).toBe " "
+    expect(tokens[3][1].scopes).toEqual ["source.satysfi"]
+
+    expect(tokens[3][2].value).toBe "="
+    expect(tokens[3][2].scopes).toEqual ["source.satysfi", "keyword.operator.assignment.satysfi"]
+
+    expect(tokens[3][3].value).toBe " "
+    expect(tokens[3][3].scopes).toEqual ["source.satysfi"]
+
+    expect(tokens[3][4].value).toBe "struct"
+    expect(tokens[3][4].scopes).toEqual ["source.satysfi", "keyword.other.module.satysfi"]
