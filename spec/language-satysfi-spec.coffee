@@ -67,3 +67,58 @@ describe "SATySFi grammar", ->
 
     expect(tokens[1][1].value).toBe "`"
     expect(tokens[1][1].scopes).toEqual ["source.satysfi", "punctuation.definition.string.end.satysfi"]
+
+  it "tokenizes the +listing command", ->
+    tokens = grammar.tokenizeLines("""
+      '<
+        +listing{
+          *foo
+            **bar
+        }
+      >
+    """)
+
+    # Line 0
+    expect(tokens[0][0].value).toBe "'<"
+    expect(tokens[0][0].scopes).toEqual ["source.satysfi", "punctuation.transition.program-to-block.begin.satysfi"]
+
+    # Line 1
+    expect(tokens[1][0].value).toBe "  "
+    expect(tokens[1][0].scopes).toEqual ["source.satysfi", "meta.state.block.satysfi"]
+
+    expect(tokens[1][1].value).toBe "+listing"
+    expect(tokens[1][1].scopes).toEqual ["source.satysfi", "meta.state.block.satysfi", "support.function.listing.satysfi"]
+
+    expect(tokens[1][2].value).toBe "{"
+    expect(tokens[1][2].scopes).toEqual ["source.satysfi", "meta.state.block.satysfi", "punctuation.definition.argument.inline.begin.satysfi"]
+
+    # Line 2
+    expect(tokens[2][0].value).toBe "    "
+    expect(tokens[2][0].scopes).toEqual ["source.satysfi", "meta.state.block.satysfi", "meta.state.inline.satysfi"]
+
+    expect(tokens[2][1].value).toBe "*"
+    expect(tokens[2][1].scopes).toEqual ["source.satysfi", "meta.state.block.satysfi", "meta.state.inline.satysfi", "variable.unordered.list.satysfi"]
+
+    expect(tokens[2][2].value).toBe "foo"
+    expect(tokens[2][2].scopes).toEqual ["source.satysfi", "meta.state.block.satysfi", "meta.state.inline.satysfi"]
+
+    # Line 3
+    expect(tokens[3][0].value).toBe "      "
+    expect(tokens[3][0].scopes).toEqual ["source.satysfi", "meta.state.block.satysfi", "meta.state.inline.satysfi"]
+
+    expect(tokens[3][1].value).toBe "**"
+    expect(tokens[3][1].scopes).toEqual ["source.satysfi", "meta.state.block.satysfi", "meta.state.inline.satysfi", "variable.unordered.list.satysfi"]
+
+    expect(tokens[3][2].value).toBe "bar"
+    expect(tokens[3][2].scopes).toEqual ["source.satysfi", "meta.state.block.satysfi", "meta.state.inline.satysfi"]
+
+    # Line 4
+    expect(tokens[4][0].value).toBe "  "
+    expect(tokens[4][0].scopes).toEqual ["source.satysfi", "meta.state.block.satysfi", "meta.state.inline.satysfi"]
+
+    expect(tokens[4][1].value).toBe "}"
+    expect(tokens[4][1].scopes).toEqual ["source.satysfi", "meta.state.block.satysfi", "punctuation.definition.argument.inline.end.satysfi"]
+
+    # Line 5
+    expect(tokens[5][0].value).toBe ">"
+    expect(tokens[5][0].scopes).toEqual ["source.satysfi", "punctuation.transition.program-to-block.end.satysfi"]
