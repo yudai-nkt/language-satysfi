@@ -50,3 +50,20 @@ describe "SATySFi grammar", ->
 
     expect(tokens[3].value).toBe "local"
     expect(tokens[3].scopes).toEqual ["source.satysfi", "support.class.satysfi"]
+
+  it "tokenizes a multi-line literal", ->
+    tokens = grammar.tokenizeLines("`foo\nbar`")
+
+    # Line 0
+    expect(tokens[0][0].value).toBe "`"
+    expect(tokens[0][0].scopes).toEqual ["source.satysfi", "punctuation.definition.string.begin.satysfi"]
+
+    expect(tokens[0][1].value).toBe "foo"
+    expect(tokens[0][1].scopes).toEqual ["source.satysfi", "string.quoted.grave-accent.satysfi"]
+
+    # Line 1
+    expect(tokens[1][0].value).toBe "bar"
+    expect(tokens[1][0].scopes).toEqual ["source.satysfi", "string.quoted.grave-accent.satysfi"]
+
+    expect(tokens[1][1].value).toBe "`"
+    expect(tokens[1][1].scopes).toEqual ["source.satysfi", "punctuation.definition.string.end.satysfi"]
