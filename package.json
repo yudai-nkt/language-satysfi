@@ -14,5 +14,8 @@
   },
   "devDependencies": {
     "eclint": "^2.6.0"
+  },
+  "scripts": {
+    "test": "apm test && eclint check"
   }
 }
