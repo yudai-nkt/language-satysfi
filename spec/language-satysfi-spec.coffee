@@ -230,3 +230,106 @@ describe "SATySFi grammar", ->
 
     expect(tokens[3][4].value).toBe "struct"
     expect(tokens[3][4].scopes).toEqual ["source.satysfi", "keyword.other.module.satysfi"]
+
+  it "tokenizes basic let bindings", ->
+    tokens = grammar.tokenizeLines("""
+      let foo = 1 * 2 + 3
+      let bar = 42. +. 0.3
+      let baz = 334inch *' 2.
+    """)
+
+    # Line 0
+    expect(tokens[0][0].value).toBe "let"
+    expect(tokens[0][0].scopes).toEqual ["source.satysfi", "keyword.other.let.satysfi"]
+
+    expect(tokens[0][1].value).toBe " foo "
+    expect(tokens[0][1].scopes).toEqual ["source.satysfi"]
+
+    expect(tokens[0][2].value).toBe "="
+    expect(tokens[0][2].scopes).toEqual ["source.satysfi", "keyword.operator.assignment.satysfi"]
+
+    expect(tokens[0][3].value).toBe " "
+    expect(tokens[0][3].scopes).toEqual ["source.satysfi"]
+
+    expect(tokens[0][4].value).toBe "1"
+    expect(tokens[0][4].scopes).toEqual ["source.satysfi", "constant.numeric.integer.decimal.satysfi"]
+
+    expect(tokens[0][5].value).toBe " "
+    expect(tokens[0][5].scopes).toEqual ["source.satysfi"]
+
+    expect(tokens[0][6].value).toBe "*"
+    expect(tokens[0][6].scopes).toEqual ["source.satysfi", "keyword.operator.arithmetic.int.satysfi"]
+
+    expect(tokens[0][7].value).toBe " "
+    expect(tokens[0][7].scopes).toEqual ["source.satysfi"]
+
+    expect(tokens[0][8].value).toBe "2"
+    expect(tokens[0][8].scopes).toEqual ["source.satysfi", "constant.numeric.integer.decimal.satysfi"]
+
+    expect(tokens[0][9].value).toBe " "
+    expect(tokens[0][9].scopes).toEqual ["source.satysfi"]
+
+    expect(tokens[0][10].value).toBe "+"
+    expect(tokens[0][10].scopes).toEqual ["source.satysfi", "keyword.operator.arithmetic.int.satysfi"]
+
+    expect(tokens[0][11].value).toBe " "
+    expect(tokens[0][11].scopes).toEqual ["source.satysfi"]
+
+    expect(tokens[0][12].value).toBe "3"
+    expect(tokens[0][12].scopes).toEqual ["source.satysfi", "constant.numeric.integer.decimal.satysfi"]
+
+    # Line 1
+    expect(tokens[1][0].value).toBe "let"
+    expect(tokens[1][0].scopes).toEqual ["source.satysfi", "keyword.other.let.satysfi"]
+
+    expect(tokens[1][1].value).toBe " bar "
+    expect(tokens[1][1].scopes).toEqual ["source.satysfi"]
+
+    expect(tokens[1][2].value).toBe "="
+    expect(tokens[1][2].scopes).toEqual ["source.satysfi", "keyword.operator.assignment.satysfi"]
+
+    expect(tokens[1][3].value).toBe " "
+    expect(tokens[1][3].scopes).toEqual ["source.satysfi"]
+
+    expect(tokens[1][4].value).toBe "42."
+    expect(tokens[1][4].scopes).toEqual ["source.satysfi", "constant.numeric.float.satysfi"]
+
+    expect(tokens[1][5].value).toBe " "
+    expect(tokens[1][5].scopes).toEqual ["source.satysfi"]
+
+    expect(tokens[1][6].value).toBe "+."
+    expect(tokens[1][6].scopes).toEqual ["source.satysfi", "keyword.operator.arithmetic.float.satysfi"]
+
+    expect(tokens[1][7].value).toBe " "
+    expect(tokens[1][7].scopes).toEqual ["source.satysfi"]
+
+    expect(tokens[1][8].value).toBe "0.3"
+    expect(tokens[1][8].scopes).toEqual ["source.satysfi", "constant.numeric.float.satysfi"]
+
+    # Line 2
+    expect(tokens[2][0].value).toBe "let"
+    expect(tokens[2][0].scopes).toEqual ["source.satysfi", "keyword.other.let.satysfi"]
+
+    expect(tokens[2][1].value).toBe " baz "
+    expect(tokens[2][1].scopes).toEqual ["source.satysfi"]
+
+    expect(tokens[2][2].value).toBe "="
+    expect(tokens[2][2].scopes).toEqual ["source.satysfi", "keyword.operator.assignment.satysfi"]
+
+    expect(tokens[2][3].value).toBe " "
+    expect(tokens[2][3].scopes).toEqual ["source.satysfi"]
+
+    expect(tokens[2][4].value).toBe "334inch"
+    expect(tokens[2][4].scopes).toEqual ["source.satysfi", "constant.numeric.length.satysfi"]
+
+    expect(tokens[2][5].value).toBe " "
+    expect(tokens[2][5].scopes).toEqual ["source.satysfi"]
+
+    expect(tokens[2][6].value).toBe "*'"
+    expect(tokens[2][6].scopes).toEqual ["source.satysfi", "keyword.operator.arithmetic.length.satysfi"]
+
+    expect(tokens[2][7].value).toBe " "
+    expect(tokens[2][7].scopes).toEqual ["source.satysfi"]
+
+    expect(tokens[2][8].value).toBe "2."
+    expect(tokens[2][8].scopes).toEqual ["source.satysfi", "constant.numeric.float.satysfi"]
