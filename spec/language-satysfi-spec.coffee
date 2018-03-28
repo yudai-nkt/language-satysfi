@@ -52,7 +52,10 @@ describe "SATySFi grammar", ->
     expect(tokens[3].scopes).toEqual ["source.satysfi", "support.class.satysfi"]
 
   it "tokenizes a multi-line literal", ->
-    tokens = grammar.tokenizeLines("`foo\nbar`")
+    tokens = grammar.tokenizeLines("""
+      `foo
+      bar`
+    """)
 
     # Line 0
     expect(tokens[0][0].value).toBe "`"
