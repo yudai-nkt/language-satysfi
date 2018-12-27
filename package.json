@@ -11,5 +11,11 @@
   "license": "MIT",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
+  },
+  "devDependencies": {
+    "eclint": "^2.6.0"
+  },
+  "scripts": {
+    "test": "apm test && eclint check"
   }
 }
