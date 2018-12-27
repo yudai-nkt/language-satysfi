@@ -395,3 +395,40 @@ describe "SATySFi grammar", ->
 
     expect(tokens[1][14].value).toBe " fact "
     expect(tokens[1][14].scopes).toEqual ["source.satysfi"]
+
+  it "tokenizes a record", ->
+    tokens = grammar.tokenizeLines("""
+      (|
+        foo = {bar};
+      |)
+    """)
+
+    # Line 0
+    expect(tokens[0][0].value).toBe "(|"
+    expect(tokens[0][0].scopes).toEqual ["source.satysfi", "meta.structure.record.satysfi", "punctuation.definition.record.begin.satysfi"]
+
+    # Line 1
+    expect(tokens[1][0].value).toBe "  foo "
+    expect(tokens[1][0].scopes).toEqual ["source.satysfi", "meta.structure.record.satysfi"]
+
+    expect(tokens[1][1].value).toBe "="
+    expect(tokens[1][1].scopes).toEqual ["source.satysfi", "meta.structure.record.satysfi", "keyword.operator.assignment.satysfi"]
+
+    expect(tokens[1][2].value).toBe " "
+    expect(tokens[1][2].scopes).toEqual ["source.satysfi", "meta.structure.record.satysfi"]
+
+    expect(tokens[1][3].value).toBe "{"
+    expect(tokens[1][3].scopes).toEqual ["source.satysfi", "meta.structure.record.satysfi", "punctuation.transition.program-to-inline.begin.satysfi"]
+
+    expect(tokens[1][4].value).toBe "bar"
+    expect(tokens[1][4].scopes).toEqual ["source.satysfi", "meta.structure.record.satysfi", "meta.state.inline.satysfi"]
+
+    expect(tokens[1][5].value).toBe "}"
+    expect(tokens[1][5].scopes).toEqual ["source.satysfi", "meta.structure.record.satysfi", "punctuation.transition.program-to-inline.end.satysfi"]
+
+    expect(tokens[1][6].value).toBe ";"
+    expect(tokens[1][6].scopes).toEqual ["source.satysfi", "meta.structure.record.satysfi", "punctuation.definition.record.delimiter.satysfi"]
+
+    # Line 2
+    expect(tokens[2][0].value).toBe "|)"
+    expect(tokens[2][0].scopes).toEqual ["source.satysfi", "meta.structure.record.satysfi", "punctuation.definition.record.end.satysfi"]
