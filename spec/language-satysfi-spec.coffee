@@ -333,3 +333,65 @@ describe "SATySFi grammar", ->
 
     expect(tokens[2][8].value).toBe "2."
     expect(tokens[2][8].scopes).toEqual ["source.satysfi", "constant.numeric.float.satysfi"]
+
+  it "tokenizes recursive function", ->
+    tokens = grammar.tokenizeLines("""
+      let-rec fact n =
+        if n <= 0 then 1 else n * fact (n - 1)
+    """)
+
+    # Line 0
+    expect(tokens[0][0].value).toBe "let-rec"
+    expect(tokens[0][0].scopes).toEqual ["source.satysfi", "keyword.other.let.satysfi"]
+
+    expect(tokens[0][1].value).toBe " fact n "
+    expect(tokens[0][1].scopes).toEqual ["source.satysfi"]
+
+    expect(tokens[0][2].value).toBe "="
+    expect(tokens[0][2].scopes).toEqual ["source.satysfi", "keyword.operator.assignment.satysfi"]
+
+    # Line 1
+    expect(tokens[1][0].value).toBe "  "
+    expect(tokens[1][0].scopes).toEqual ["source.satysfi"]
+
+    expect(tokens[1][1].value).toBe "if"
+    expect(tokens[1][1].scopes).toEqual ["source.satysfi", "keyword.control.conditional.satysfi"]
+
+    expect(tokens[1][2].value).toBe " n "
+    expect(tokens[1][2].scopes).toEqual ["source.satysfi"]
+
+    expect(tokens[1][3].value).toBe "<="
+    expect(tokens[1][3].scopes).toEqual ["source.satysfi", "keyword.operator.comparison.int.satysfi"]
+
+    expect(tokens[1][4].value).toBe " "
+    expect(tokens[1][4].scopes).toEqual ["source.satysfi"]
+
+    expect(tokens[1][5].value).toBe "0"
+    expect(tokens[1][5].scopes).toEqual ["source.satysfi", "constant.numeric.integer.decimal.satysfi"]
+
+    expect(tokens[1][6].value).toBe " "
+    expect(tokens[1][6].scopes).toEqual ["source.satysfi"]
+
+    expect(tokens[1][7].value).toBe "then"
+    expect(tokens[1][7].scopes).toEqual ["source.satysfi", "keyword.control.conditional.satysfi"]
+
+    expect(tokens[1][8].value).toBe " "
+    expect(tokens[1][8].scopes).toEqual ["source.satysfi"]
+
+    expect(tokens[1][9].value).toBe "1"
+    expect(tokens[1][9].scopes).toEqual ["source.satysfi", "constant.numeric.integer.decimal.satysfi"]
+
+    expect(tokens[1][10].value).toBe " "
+    expect(tokens[1][10].scopes).toEqual ["source.satysfi"]
+
+    expect(tokens[1][11].value).toBe "else"
+    expect(tokens[1][11].scopes).toEqual ["source.satysfi", "keyword.control.conditional.satysfi"]
+
+    expect(tokens[1][12].value).toBe " n "
+    expect(tokens[1][12].scopes).toEqual ["source.satysfi"]
+
+    expect(tokens[1][13].value).toBe "*"
+    expect(tokens[1][13].scopes).toEqual ["source.satysfi", "keyword.operator.arithmetic.int.satysfi"]
+
+    expect(tokens[1][14].value).toBe " fact "
+    expect(tokens[1][14].scopes).toEqual ["source.satysfi"]
