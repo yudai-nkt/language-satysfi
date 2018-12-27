@@ -432,3 +432,36 @@ describe "SATySFi grammar", ->
     # Line 2
     expect(tokens[2][0].value).toBe "|)"
     expect(tokens[2][0].scopes).toEqual ["source.satysfi", "meta.structure.record.satysfi", "punctuation.definition.record.end.satysfi"]
+
+  it "tokenizes a list concatenation", ->
+    {tokens} = grammar.tokenizeLine("0 :: [1; 2]")
+
+    expect(tokens[0].value).toBe "0"
+    expect(tokens[0].scopes).toEqual ["source.satysfi", "constant.numeric.integer.decimal.satysfi"]
+
+    expect(tokens[1].value).toBe " "
+    expect(tokens[1].scopes).toEqual ["source.satysfi"]
+
+    expect(tokens[2].value).toBe "::"
+    expect(tokens[2].scopes).toEqual ["source.satysfi", "keyword.operator.cons.satysfi"]
+
+    expect(tokens[3].value).toBe " "
+    expect(tokens[3].scopes).toEqual ["source.satysfi"]
+
+    expect(tokens[4].value).toBe "["
+    expect(tokens[4].scopes).toEqual ["source.satysfi", "meta.structure.list.satysfi", "punctuation.definition.list.begin.satysfi"]
+
+    expect(tokens[5].value).toBe "1"
+    expect(tokens[5].scopes).toEqual ["source.satysfi", "meta.structure.list.satysfi", "constant.numeric.integer.decimal.satysfi"]
+
+    expect(tokens[6].value).toBe ";"
+    expect(tokens[6].scopes).toEqual ["source.satysfi", "meta.structure.list.satysfi", "punctuation.definition.list.delimiter.satysfi"]
+
+    expect(tokens[7].value).toBe " "
+    expect(tokens[7].scopes).toEqual ["source.satysfi", "meta.structure.list.satysfi"]
+
+    expect(tokens[8].value).toBe "2"
+    expect(tokens[8].scopes).toEqual ["source.satysfi", "meta.structure.list.satysfi", "constant.numeric.integer.decimal.satysfi"]
+
+    expect(tokens[9].value).toBe "]"
+    expect(tokens[9].scopes).toEqual ["source.satysfi", "meta.structure.list.satysfi", "punctuation.definition.list.end.satysfi"]
