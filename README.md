@@ -1,3 +1,5 @@
+**GitHub has [announced](https://github.blog/2022-06-08-sunsetting-atom/) that they will archive Atom project, so is this repository.**
+
 # `language-satysfi` package
 
 An Atom package that provides [SATySFi][] grammar.
