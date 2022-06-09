@@ -1,0 +1,835 @@
+{
+  "scopeName": "source.satysfi",
+  "name": "SATySFi",
+  "fileTypes": [
+    "saty",
+    "satyh"
+  ],
+  "patterns": [
+    {
+      "include": "#programState"
+    }
+  ],
+  "repository": {
+    "programState": {
+      "patterns": [
+        {
+          "include": "#comment"
+        },
+        {
+          "include": "#literal"
+        },
+        {
+          "include": "#activeState"
+        },
+        {
+          "include": "#transitionFromProgramState"
+        },
+        {
+          "include": "#keyword"
+        },
+        {
+          "include": "#constant"
+        },
+        {
+          "include": "#misc"
+        },
+        {
+          "include": "#operator"
+        },
+        {
+          "include": "#primitive"
+        }
+      ]
+    },
+    "activeState": {
+      "patterns": [
+        {
+          "begin": "\\[",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.list.begin.satysfi"
+            }
+          },
+          "end": "\\]",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.list.end.satysfi"
+            }
+          },
+          "name": "meta.structure.list.satysfi",
+          "patterns": [
+            {
+              "include": "#programState"
+            },
+            {
+              "match": ";",
+              "name": "punctuation.definition.list.delimiter.satysfi"
+            }
+          ]
+        },
+        {
+          "begin": "\\(\\|",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.record.begin.satysfi"
+            }
+          },
+          "end": "\\|\\)",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.record.end.satysfi"
+            }
+          },
+          "name": "meta.structure.record.satysfi",
+          "patterns": [
+            {
+              "include": "#programState"
+            },
+            {
+              "match": ";",
+              "name": "punctuation.definition.record.delimiter.satysfi"
+            }
+          ]
+        },
+        {
+          "begin": "\\(",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.begin.satysfi"
+            }
+          },
+          "end": "\\)",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.end.satysfi"
+            }
+          },
+          "name": "meta.state.program.satysfi",
+          "patterns": [
+            {
+              "include": "#programState"
+            }
+          ]
+        },
+        {
+          "include": "#transitionFromActiveState"
+        }
+      ]
+    },
+    "blockState": {
+      "patterns": [
+        {
+          "include": "#comment"
+        },
+        {
+          "include": "#transitionFromBlockState"
+        },
+        {
+          "include": "#itemizePackage"
+        },
+        {
+          "include": "#blockCommand"
+        },
+        {
+          "begin": "<",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.bracket.triangle.begin.satysfi"
+            }
+          },
+          "end": ">",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.bracket.triangle.end.satysfi"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#blockState"
+            }
+          ]
+        }
+      ]
+    },
+    "inlineState": {
+      "patterns": [
+        {
+          "include": "#comment"
+        },
+        {
+          "include": "#literal"
+        },
+        {
+          "include": "#transitionFromInlineState"
+        },
+        {
+          "include": "#inlineCommand"
+        },
+        {
+          "match": "\\\\[ -@\\[-`{-~]",
+          "name": "constant.character.escape.satysfi"
+        }
+      ]
+    },
+    "mathState": {
+      "patterns": [
+        {
+          "include": "#comment"
+        },
+        {
+          "include": "#transitionFromMathState"
+        },
+        {
+          "match": "\\\\[a-zA-Z][-a-zA-Z0-9]*",
+          "name": "support.function.command.math.satysfi"
+        }
+      ]
+    },
+    "transitionFromProgramState": {
+      "patterns": [
+        {
+          "begin": "\\{",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.transition.program-to-inline.begin.satysfi"
+            }
+          },
+          "end": "\\}",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.transition.program-to-inline.end.satysfi"
+            }
+          },
+          "contentName": "meta.state.inline.satysfi",
+          "patterns": [
+            {
+              "include": "#inlineState"
+            }
+          ]
+        },
+        {
+          "begin": "'<",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.transition.program-to-block.begin.satysfi"
+            }
+          },
+          "end": ">",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.transition.program-to-block.end.satysfi"
+            }
+          },
+          "contentName": "meta.state.block.satysfi",
+          "patterns": [
+            {
+              "include": "#blockState"
+            }
+          ]
+        },
+        {
+          "begin": "\\$\\{",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.transition.program-to-math.begin.satysfi"
+            }
+          },
+          "end": "\\}",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.transition.program-to-math.end.satysfi"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#mathState"
+            }
+          ]
+        }
+      ]
+    },
+    "transitionFromBlockState": {
+      "patterns": [
+        {
+          "begin": "\\{",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.transition.block-to-inline.begin.satysfi"
+            }
+          },
+          "end": "\\}",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.transition.block-to-inline.end.satysfi"
+            }
+          },
+          "contentName": "meta.state.inline.satysfi",
+          "patterns": [
+            {
+              "include": "#inlineState"
+            }
+          ]
+        }
+      ]
+    },
+    "transitionFromInlineState": {
+      "patterns": [
+        {
+          "begin": "<",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.transition.inline-to-block.begin.satysfi"
+            }
+          },
+          "end": ">",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.transition.inline-to-block.end.satysfi"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#blockState"
+            }
+          ]
+        },
+        {
+          "begin": "\\$\\{",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.transition.inline-to-math.begin.satysfi"
+            }
+          },
+          "end": "\\}",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.transition.inline-to-math.end.satysfi"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#mathState"
+            }
+          ]
+        }
+      ]
+    },
+    "transitionFromMathState": {
+      "patterns": [
+        {
+          "begin": "!\\{",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.transition.math-to-inline.begin.satysfi"
+            }
+          },
+          "end": "\\}",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.transition.math-to-inline.end.satysfi"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#inlineState"
+            }
+          ]
+        },
+        {
+          "begin": "!<",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.transition.math-to-block.begin.satysfi"
+            }
+          },
+          "end": ">",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.transition.math-to-block.end.satysfi"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#blockState"
+            }
+          ]
+        },
+        {
+          "begin": "!\\(",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.transition.math-to-program.begin.satysfi"
+            }
+          },
+          "end": "\\)",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.transition.math-to-program.end.satysfi"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#programState"
+            }
+          ]
+        }
+      ]
+    },
+    "blockCommand": {
+      "patterns": [
+        {
+          "begin": "(\\+[a-zA-Z][-a-zA-Z0-9]*)([^;<]*?)(\\{)",
+          "beginCaptures": {
+            "1": {
+              "name": "support.function.command.block.satysfi"
+            },
+            "2": {
+              "name": "meta.state.active.satysfi",
+              "patterns": [
+                {
+                  "include": "#activeState"
+                }
+              ]
+            },
+            "3": {
+              "name": "punctuation.definition.inline.begin.satysfi"
+            }
+          },
+          "end": "\\}",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.inline.end.satysfi"
+            }
+          },
+          "contentName": "meta.state.inline.satysfi",
+          "patterns": [
+            {
+              "include": "#inlineState"
+            }
+          ]
+        },
+        {
+          "begin": "(\\+[a-zA-Z][-a-zA-Z0-9]*)([^;{]*?)(<)",
+          "beginCaptures": {
+            "1": {
+              "name": "support.function.command.block.satysfi"
+            },
+            "2": {
+              "name": "meta.state.active.satysfi",
+              "patterns": [
+                {
+                  "include": "#activeState"
+                }
+              ]
+            },
+            "3": {
+              "name": "punctuation.definition.block.begin.satysfi"
+            }
+          },
+          "end": ">",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.block.end.satysfi"
+            }
+          },
+          "contentName": "meta.state.block.satysfi",
+          "patterns": [
+            {
+              "include": "#blockState"
+            }
+          ]
+        },
+        {
+          "begin": "\\+[a-zA-Z][-a-zA-Z0-9]*",
+          "beginCaptures": {
+            "0": {
+              "name": "support.function.command.block.satysfi"
+            }
+          },
+          "end": ";",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.terminator.satysfi"
+            }
+          },
+          "contentName": "meta.state.active.satysfi",
+          "patterns": [
+            {
+              "include": "#activeState"
+            }
+          ]
+        }
+      ]
+    },
+    "comment": {
+      "match": "(%).*",
+      "captures": {
+        "0": {
+          "name": "comment.line.percentage.satysfi"
+        },
+        "1": {
+          "name": "punctuation.definition.comment.satysfi"
+        }
+      }
+    },
+    "constant": {
+      "patterns": [
+        {
+          "match": "(?<![\\w-])(?:true|false)(?![\\w-])",
+          "name": "constant.language.boolean.$0.satysfi"
+        },
+        {
+          "match": "\\(\\)",
+          "name": "constant.language.unit.satysfi"
+        },
+        {
+          "match": "(?:[0-9]+\\.[0-9]*|\\.[0-9]+)",
+          "name": "constant.numeric.float.satysfi"
+        },
+        {
+          "match": "\\b([1-9]+[0-9]*|0)\\b",
+          "name": "constant.numeric.integer.decimal.satysfi"
+        },
+        {
+          "match": "\\b(?i:0x[0-9A-F]+)\\b",
+          "name": "constant.numeric.integer.hexadecimal.satysfi"
+        },
+        {
+          "match": "(?:[0-9]+\\.[0-9]*|\\.[0-9]+|[1-9]+[0-9]*|0)(?:pt|mm|cm|inch)",
+          "name": "constant.numeric.length.satysfi"
+        }
+      ]
+    },
+    "inlineCommand": {
+      "patterns": [
+        {
+          "begin": "(\\\\[a-zA-Z][-a-zA-Z0-9]*)([^;<]*?)(\\{)",
+          "beginCaptures": {
+            "1": {
+              "name": "support.function.command.inline.satysfi"
+            },
+            "2": {
+              "name": "meta.state.active.satysfi",
+              "patterns": [
+                {
+                  "include": "#activeState"
+                }
+              ]
+            },
+            "3": {
+              "name": "punctuation.definition.inline.begin.satysfi"
+            }
+          },
+          "end": "\\}",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.inline.end.satysfi"
+            }
+          },
+          "contentName": "meta.state.inline.satysfi",
+          "patterns": [
+            {
+              "include": "#inlineState"
+            }
+          ]
+        },
+        {
+          "begin": "(\\\\[a-zA-Z][-a-zA-Z0-9]*)([^;{]*?)(<)",
+          "beginCaptures": {
+            "1": {
+              "name": "support.function.command.inline.satysfi"
+            },
+            "2": {
+              "name": "meta.state.active.satysfi",
+              "patterns": [
+                {
+                  "include": "#activeState"
+                }
+              ]
+            },
+            "3": {
+              "name": "punctuation.definition.block.begin.satysfi"
+            }
+          },
+          "end": ">",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.block.end.satysfi"
+            }
+          },
+          "contentName": "meta.state.block.satysfi",
+          "patterns": [
+            {
+              "include": "#blockState"
+            }
+          ]
+        },
+        {
+          "begin": "\\\\[a-zA-Z][-a-zA-Z0-9]*",
+          "beginCaptures": {
+            "0": {
+              "name": "support.function.command.inline.satysfi"
+            }
+          },
+          "end": ";",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.terminator.satysfi"
+            }
+          },
+          "contentName": "meta.state.active.satysfi",
+          "patterns": [
+            {
+              "include": "#activeState"
+            }
+          ]
+        }
+      ]
+    },
+    "keyword": {
+      "patterns": [
+        {
+          "match": "(?<![\\w-])in(?![\\w-])",
+          "name": "keyword.control.let-in.satysfi"
+        },
+        {
+          "match": "(@(import|require))(:)\\s*(.*)$",
+          "captures": {
+            "1": {
+              "name": "keyword.control.header.$2.satysfi"
+            },
+            "3": {
+              "name": "punctuation.definition.terminator.satysfi"
+            },
+            "4": {
+              "name": "support.class.satysfi"
+            }
+          }
+        },
+        {
+          "match": "(?<![\\w-])(?:if|then|else)(?![\\w-])",
+          "name": "keyword.control.conditional.satysfi"
+        },
+        {
+          "match": "(?<![\\w-])(?:while|do)(?![\\w-])",
+          "name": "keyword.control.while.satysfi"
+        },
+        {
+          "match": "(?<![\\w-])(?:match|with|when)(?![\\w-])",
+          "name": "keyword.control.match.satysfi"
+        },
+        {
+          "match": "(?<![\\w-])as(?![\\w-])",
+          "name": "keyword.other.as-match.satysfi"
+        },
+        {
+          "match": "(?<![\\w-])fun(?![\\w-])",
+          "name": "keyword.other.lambda-abstraction.satysfi"
+        },
+        {
+          "match": "(?<![\\w-])let(?:-(?:rec|mutable|inline|block|math))?(?![\\w-])",
+          "name": "keyword.other.let.satysfi"
+        },
+        {
+          "match": "(?<![\\w-])(?:module|struct|sig|val|end|direct)(?![\\w-])",
+          "name": "keyword.other.module.satysfi"
+        },
+        {
+          "match": "(?<![\\w-])constraint(?![\\w-])",
+          "name": "keyword.other.polymorphic-variants.satysfi"
+        },
+        {
+          "match": "(?<![\\w-])(?:inline|block|math)-cmd(?![\\w-])",
+          "name": "keyword.other.type.builtin-command.satysfi"
+        },
+        {
+          "match": "(?<![\\w-])(?:type|of)(?![\\w-])",
+          "name": "keyword.other.variant-definition.satysfi"
+        }
+      ]
+    },
+    "literal": {
+      "begin": "(`+)\\s*",
+      "beginCaptures": {
+        "1": {
+          "name": "punctuation.definition.string.begin.satysfi"
+        }
+      },
+      "end": "\\s*(\\1)",
+      "endCaptures": {
+        "1": {
+          "name": "punctuation.definition.string.end.satysfi"
+        }
+      },
+      "contentName": "string.quoted.grave-accent.satysfi"
+    },
+    "misc": {
+      "patterns": [
+        {
+          "match": "(?<![\\w-])(?:unit|bool|int|float|length|string|(?:inline|block)-(?:text|boxes)|context|(?:pre-)?path|graphics|image|document|math|regexp)(?![\\w-])",
+          "name": "storage.type.primitive.satysfi"
+        },
+        {
+          "match": "'[a-z][-a-zA-Z0-9]*",
+          "name": "keyword.other.type-variable.satysfi"
+        },
+        {
+          "match": "\\\\[a-zA-Z][-a-zA-Z0-9]*",
+          "name": "support.function.command.inline.satysfi"
+        },
+        {
+          "match": "\\+[a-zA-Z][-a-zA-Z0-9]*",
+          "name": "support.function.command.block.satysfi"
+        },
+        {
+          "match": "([A-Z][-a-zA-Z0-9]*\\.)+(?=[a-z][-a-zA-Z0-9]*)",
+          "name": "support.class.constructor.satysfi"
+        },
+        {
+          "match": "\\?:",
+          "name": "punctuation.definition.optional-argument.satysfi"
+        },
+        {
+          "match": "(?<!:):(?!:)",
+          "name": "punctuation.definition.type-specification.satysfi"
+        },
+        {
+          "match": "\\|",
+          "name": "punctuation.definition.pattern-match.delimiter.satysfi"
+        }
+      ]
+    },
+    "operator": {
+      "patterns": [
+        {
+          "match": "::",
+          "name": "keyword.operator.cons.satysfi"
+        },
+        {
+          "match": "<-",
+          "name": "keyword.operator.overwrite.satysfi"
+        },
+        {
+          "match": "->",
+          "name": "keyword.operator.arrow.satysfi"
+        },
+        {
+          "match": "=",
+          "name": "keyword.operator.assignment.satysfi"
+        },
+        {
+          "match": "(\\+|-)\\.",
+          "name": "keyword.operator.arithmetic.float.satysfi"
+        },
+        {
+          "match": "(\\+|-|\\*|/)'",
+          "name": "keyword.operator.arithmetic.length.satysfi"
+        },
+        {
+          "match": "(<|>)'",
+          "name": "keyword.operator.comparison.length.satysfi"
+        },
+        {
+          "match": "\\+{3}",
+          "name": "keyword.operator.bond.block.satysfi"
+        },
+        {
+          "match": "\\+{2}",
+          "name": "keyword.operator.bond.inline.satysfi"
+        },
+        {
+          "match": "(\\+|(?<![-a-zA-Z0-9<>])-(?![-a-zA-Z0-9<>])|\\*|/|(?<![\\w-])mod(?![\\w-]))",
+          "name": "keyword.operator.arithmetic.int.satysfi"
+        },
+        {
+          "match": "((?:<|=|>)=|<>|<|>)",
+          "name": "keyword.operator.comparison.int.satysfi"
+        },
+        {
+          "match": "\\^",
+          "name": "keyword.operator.concatenation.string.satysfi"
+        },
+        {
+          "match": "(&&|\\|\\||(?<![\\w-])not(?![\\w-]))",
+          "name": "keyword.operator.logical.satysfi"
+        },
+        {
+          "match": "!",
+          "name": "keyword.operator.dereference.satysfi"
+        },
+        {
+          "match": "(arabic|string-unexplode)",
+          "name": "support.function.builtin.satysfi"
+        },
+        {
+          "match": "(string-(?:same|sub|length))",
+          "name": "invalid.deprecated.string.satysfi"
+        }
+      ]
+    },
+    "primitive": {
+      "patterns": [
+        {
+          "match": "(?<![\\w-])(read-inline|inline-(?:skip|glue|fill|nil|graphics|frame-(?:inner|outer|breakable))|embed-(?:string|math|block-(?:top|bottom))|discretionary|script-guard|get-natural-width|line-stack-(?:top|bottom))(?![\\w-])",
+          "name": "support.function.builtin.inline.satysfi"
+        },
+        {
+          "match": "(?<![\\w-])(read-block|line-break|form-document|block-(?:nil|frame-breakable))(?![\\w-])",
+          "name": "support.function.builtin.block.satysfi"
+        },
+        {
+          "match": "(?<![\\w-])((?:set|get)-(?:font-size|language|dominant-(?:narrow|wide)-script)|set-(?:space-ratio|(?:math-)?font|text-color|leading|manual-rising)|get-text-width)(?![\\w-])",
+          "name": "support.function.builtin.context.satysfi"
+        },
+        {
+          "match": "(?<![\\w-])(math-(?:(?:big-)?char(?:-with-kern)?|sup|sub|upper|lower|frac|radical|paren|variant-char|color|char-class)|text-in-math)(?![\\w-])",
+          "name": "support.function.builtin.math.satysfi"
+        },
+        {
+          "match": "(?<![\\w-])(load-(?:pdf-)?image|use-image-by-width)(?![\\w-])",
+          "name": "support.function.builtin.image.satysfi"
+        },
+        {
+          "match": "(?<![\\w-])(start-path|(?:line|bezier)-to|close-with-(?:line|bezier)|(?:terminate|unite)-path|fill|stroke|draw-text)(?![\\w-])",
+          "name": "support.function.builtin.graphic.satysfi"
+        }
+      ]
+    },
+    "itemizePackage": {
+      "patterns": [
+        {
+          "begin": "(\\+listing)(?:\\s*)(\\{)",
+          "beginCaptures": {
+            "1": {
+              "name": "support.function.listing.satysfi"
+            },
+            "2": {
+              "name": "punctuation.definition.argument.inline.begin.satysfi"
+            }
+          },
+          "end": "\\}",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.argument.inline.end.satysfi"
+            }
+          },
+          "contentName": "meta.state.inline.satysfi",
+          "patterns": [
+            {
+              "match": "^\\s*(\\*+)",
+              "captures": {
+                "1": {
+                  "name": "variable.unordered.list.satysfi"
+                }
+              }
+            },
+            {
+              "include": "#inlineState"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
